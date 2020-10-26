@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Livro de ponto</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+        <link href="style.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="header">
+            <h1>Gerador de Livro de Frequência</h1>
+         </div>
+        <div id="container_form">
+            <div id="voltar"><a href="index.html">Voltar</a></div>
+            <div class="title">
+                <h1>Forneça os dados para Gerar o Livro de Frequência.
+                </h1>
+            </div>
+            <div id="form">
+                <div>Mês / Ano: <input type="month" id="month"></div>
+                <div id="divHoliday">
+                    <div>Feriado:</div>
+                </div>
+                <div><button id="btnAdd" onclick="addHoliday()">Add Feriado</button></div>
+                <div id="divSaturday">
+                    <div>Sábado Letivo:</div>
+                </div>
+                <div><button id="btnAdd" onclick="addSatLetivo()">Add Sábado Letivo</button></div>
+                <div><button id="btnGerar" onclick="make()">Gerar Frequência</button></div> 
+            </div>
+        </div>  
+        <div id="container_table">
+
+        </div>
+        <script src="moment.js"></script>
+        <script src="script.js"></script>
+        <script>
+            var week = ['DOMINGO', 'SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO'];
+            var monthCurrent = '';
+            var currentDate = '';
+            var daysByMonth = '';
+            var result_table='';
+            var monthYear = '';
+            var holidays = [];
+            var saturdays = [];
+            var saturday = [];
+            var holiday = [];
+            var header = document.querySelector('.header');
+            var container_form = document.querySelector('#container_form');
+            var holidayCheck = [];
+            var saturdayCheck = [];
+
+            function make(){
+                monthYear = document.querySelector('#month');
+                holidays = document.querySelectorAll('.holiday');
+                for(var h=0;h<holidays.length;h++){
+                    holiday.push(holidays[h].value);
+                }
+                saturdays = document.querySelectorAll('.saturday');
+                for(var h=0;h<saturdays.length;h++){
+                    saturday.push(saturdays[h].value);
+                }
+                currentDate = moment(monthYear.value);
+                daysByMonth = currentDate.endOf('month').format('DD');
+                monthCurrent = month(currentDate.format('M'));
+                header.style.display = 'none';
+                container_form.style.display = 'none';
+                for(var a = 0; a<servidor.length; a++){
+                    result_table += `
+                    <table class="table bold">
+                        <tr>
+                        <td colspan="11" class="align_center"><img class="brasao" src="Brasao_palmas.png" />
+                        <h3>Prefeitura Municipal de Palmas</h3>
+                        <h3>FICHA DE FREQUÊNCIA</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">UNIDADE / GESTÃO ATUAL:</td>
+                        <td colspan="8">SECRETARIA MUNICIPAL DE EDUCAÇÃO</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">LOTAÇÃO ATUAL:</td>
+                        <td colspan="8">ESCOLA MUNICIPAL MESTRE PACÍFICO SIQUEIRA CAMPOS</td>
+                    </tr>
+                    <tr>
+                        <td>MATRÍCULA: </td>
+                        <td colspan="2">${servidor[a].matricula}</td>
+                        <td>SERVIDOR:</td>
+                        <td colspan="7">${servidor[a].nome}</td>
+                    </tr>
+                    <tr>
+                        <td>CARGO: </td>
+                        <td colspan="2">${servidor[a].cargo}</td>
+                        <td>FUNÇÃO</td>
+                        <td colspan="3">${servidor[a].funcao}</td>
+                        <td>MÊS / REFERÊNCIA</td>
+                        <td colspan="3">${monthCurrent} DE ${currentDate.format('YYYY')}</td>
+                    </tr>
+                    <tr>
+                        <td>VÍNCULO: </td>
+                        <td colspan="2">${servidor[a].vinculo}</td>
+                        <td>CARGA HORÁRIA SEMANAL</td>
+                        <td colspan="3">40 HORAS</td>
+                        <td>CONTATOS</td>
+                        <td colspan="3">${servidor[a].contato}</td>
+                    </tr>
+                    <tr>
+                        <td>PERÍODO</td>
+                        <td class="align_center" colspan="4">MATUTINO</td>
+                        <td class="align_center" colspan="4">VESPERTINO</td>
+                        <td class="align_center" colspan="2" rowspan="2">OBSERVAÇÃO</td>
+                    </tr>
+                    <tr>
+                        <td class="align_center">DIA</td>
+                        <td class="align_center hora">HORA ENTRADA</td>
+                        <td class="align_center hora">HORA SAÍDA</td>
+                        <td class="align_center assinatura" colspan="2">ASSINATURA</td>
+                        <td class="align_center hora">HORA ENTRADA</td>
+                        <td class="align_center hora">HORA SAÍDA</td>
+                        <td class="align_center assinatura" colspan="2">ASSINATURA</td>
+                    </tr>
+                `;
+                    for(var i=1; i<=daysByMonth; i++){
+                        currentDate.set("date", i);
+                        if(servidor[a].funcao !== "VIGIA DIURNO" && servidor[a].funcao !== "VIGIA NOTURNO"){
+                            holidayCheck = holiday.filter((b)=>{
+                                   return b === currentDate.format("YYYY-MM-DD");
+                            });
+                            saturdayCheck = saturday.filter((z)=>{
+                                return z === currentDate.format("YYYY-MM-DD");
+                            });
+                                
+                                if(week[currentDate.format("d")] === "SÁBADO" &&  saturdayCheck[0]!==currentDate.format("YYYY-MM-DD") || week[currentDate.format("d")] === "DOMINGO"){
+                                    result_table += `
+                                    <tr>
+                                        <td class="align_center useless_day">${i}</td>
+                                        <td class="align_center useless_day">-</td>
+                                        <td class="align_center useless_day">-</td>
+                                        <td class="align_center useless_day" colspan="2">${week[currentDate.format("d")]}</td>
+                                        <td class="align_center useless_day">-</td>
+                                        <td class="align_center useless_day">-</td>
+                                        <td class="align_center useless_day" colspan="2">${week[currentDate.format("d")]}</td>
+                                        <td class="align_center useless_day" colspan="2">-</td>
+                                    </tr>
+                                    `;
+                                }else if(holidayCheck.length > 0 && holidayCheck[0] === currentDate.format("YYYY-MM-DD")){
+                                    result_table += `
+                                    <tr>
+                                        <td class="align_center useless_day">${i}</td>
+                                        <td class="align_center useless_day">-</td>
+                                        <td class="align_center useless_day">-</td>
+                                        <td class="align_center useless_day" colspan="2">FERIADO/RECESSO</td>
+                                        <td class="align_center useless_day">-</td>
+                                        <td class="align_center useless_day">-</td>
+                                        <td class="align_center useless_day" colspan="2">FERIADO/RECESSO</td>
+                                        <td class="align_center useless_day" colspan="2">-</td>
+                                    </tr>
+                                    `;
+                                }
+                                else{
+                                    result_table += `
+                                    <tr>
+                                        <td class="align_center">${i}</td>
+                                        <td class="align_center">&nbsp;</td>
+                                        <td class="align_center">&nbsp;</td>
+                                        <td class="align_center" colspan="2">&nbsp;</td>
+                                        <td class="align_center">&nbsp;</td>
+                                        <td class="align_center">&nbsp;</td>
+                                        <td class="align_center" colspan="2">&nbsp;</td>
+                                        <td class="align_center" colspan="2">&nbsp;</td>
+                                    </tr>
+                                    `;
+                                }
+                        }else{
+                            result_table += `
+                                <tr>
+                                    <td class="align_center">${i}</td>
+                                    <td class="align_center">&nbsp;</td>
+                                    <td class="align_center">&nbsp;</td>
+                                    <td class="align_center" colspan="2">&nbsp;</td>
+                                    <td class="align_center">&nbsp;</td>
+                                    <td class="align_center">&nbsp;</td>
+                                    <td class="align_center" colspan="2">&nbsp;</td>
+                                    <td class="align_center" colspan="2">&nbsp;</td>
+                                </tr>
+                                `;
+                        }
+                    }
+                    result_table += `
+                        <tr>
+                            <td colspan="5">QUANTIDADE DE FALTAS:</td>
+                            <td colspan="6" rowspan="3" class="align_center"><span>______________________________________<br />Assinatura Chefia Imediata</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5">OBSERVAÇÕES:</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5">&nbsp;<br /><br /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="11">&nbsp;<br /></td>
+                        </tr>
+                    </table>
+                        `;
+                }
+                document.querySelector('#container_table').innerHTML = result_table;
+            }
+        </script>
+        
+    </body>
+</html>
