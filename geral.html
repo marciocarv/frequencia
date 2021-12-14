@@ -105,19 +105,19 @@
                         <td colspan="3">${servidor[a].contato}</td>
                     </tr>
                     <tr>
-                        <td>PERÍODO</td>
-                        <td class="align_center" colspan="4">MATUTINO</td>
-                        <td class="align_center" colspan="4">VESPERTINO</td>
-                        <td class="align_center" colspan="2" rowspan="2">OBSERVAÇÃO</td>
+                        <td class="dia useless_day">PERÍODO</td>
+                        <td class="useless_day align_center" colspan="4">MATUTINO</td>
+                        <td class="useless_day align_center" colspan="4">VESPERTINO</td>
+                        <td class="obs useless_day align_center" colspan="2" rowspan="2">OBSERVAÇÃO</td>
                     </tr>
                     <tr>
-                        <td class="align_center">DIA</td>
-                        <td class="align_center hora">HORA ENTRADA</td>
-                        <td class="align_center hora">HORA SAÍDA</td>
-                        <td class="align_center assinatura" colspan="2">ASSINATURA</td>
-                        <td class="align_center hora">HORA ENTRADA</td>
-                        <td class="align_center hora">HORA SAÍDA</td>
-                        <td class="align_center assinatura" colspan="2">ASSINATURA</td>
+                        <td class="useless_day align_center">DIA</td>
+                        <td class="useless_day align_center hora">ENTRADA</td>
+                        <td class="useless_day align_center hora">SAÍDA</td>
+                        <td class="useless_day align_center assinatura" colspan="2">ASSINATURA</td>
+                        <td class="useless_day align_center hora">ENTRADA</td>
+                        <td class="useless_day align_center hora">SAÍDA</td>
+                        <td class="useless_day align_center assinatura" colspan="2">ASSINATURA</td>
                     </tr>
                 `;
                     for(var i=1; i<=daysByMonth; i++){
@@ -188,17 +188,22 @@
                     }
                     result_table += `
                         <tr>
-                            <td colspan="5">QUANTIDADE DE FALTAS:</td>
-                            <td colspan="6" rowspan="3" class="align_center"><span>______________________________________<br />Assinatura Chefia Imediata</span></td>
-                        </tr>
-                        <tr>
-                            <td colspan="5">OBSERVAÇÕES:</td>
+                            <td colspan="5">Obs:</td>
+							<td colspan="6" rowspan="2" class="align_center"><span>Palmas, ____ de _______ de ________ 
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                   ______________________________________<br />
+                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                   Assinatura Chefia Imediata</span></td>
                         </tr>
                         <tr>
                             <td colspan="5">&nbsp;<br /><br /></td>
                         </tr>
                         <tr>
-                            <td colspan="11">&nbsp;<br /></td>
+                            <td colspan="11">Obs.: Art. 38 da Lei Complementar 008, de 16 de novembro de 1999, o servidor perderá: II - A parcela de remuneração diária, proporcional aos atrasos não justificados. </td>
                         </tr>
                     </table>
                         `;
